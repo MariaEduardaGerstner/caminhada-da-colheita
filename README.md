@@ -1,38 +1,52 @@
-# 🌌 Noite das Estrelas Cadentes
+# 🚜🌽 A Caminhada da Colheita
 
-Este é um projeto feito com p5.js para o Agrinho 2025, onde o usuário pode observar o céu estrelado e lançar estrelas cadentes que se transformam em flores mágicas ao tocar o solo.
+Este projeto foi criado por Maria Eduarda Gerstner para o programa **Agrinho 2025**, com o tema **"Do campo à cidade"**.
 
 ## 🎯 Objetivo
 
-Explorar estruturas básicas da programação como `if`, `for`, `arrays`, uso de teclas (`keyPressed`, `keyIsDown`), além da criatividade com cores e interatividade.
+Representar, por meio de um jogo interativo, como os alimentos produzidos no campo são levados até a cidade. A proposta é valorizar a agricultura, o trabalho rural e a conexão com a vida urbana.
 
-## 🕹 Como funciona
+## 🕹 Como funciona?
 
-- Use as **setas ← e →** para mover o observador no solo.
-- Pressione **Espaço** para lançar uma estrela cadente.
-- Ao atingir o solo, a estrela se transforma em uma **flor colorida**.
-- O céu contém estrelas piscando em tons de azul e branco.
+Você controla um **trator** que precisa:
+- Colher alimentos no campo (lado esquerdo da tela),
+- E entregá-los na cidade (lado direito da tela).
 
-## 🧠 Conceitos usados
+### Controles:
+- Use as **setas do teclado** para mover o trator:
+  - ← esquerda
+  - → direita
+  - ↑ cima
+  - ↓ baixo
 
-- `if`, `for`, `keyPressed`, `keyIsDown`
-- Arrays e classes
-- Aleatoriedade (cores, posições, brilho)
-- Criatividade com interatividade e cores
+Cada alimento entregue mostra uma **mensagem educativa** sobre a importância do campo na vida urbana.
 
-## 📦 Ferramentas utilizadas
+## 💻 Tecnologias utilizadas
 
-- **Linguagem:** JavaScript
-- **Biblioteca:** [p5.js](https://p5js.org/)
+- [p5.js](https://p5js.org/) — Biblioteca JavaScript para criar gráficos e interatividade.
 
-## 🎵 Recursos externos
+## 🧠 Conceitos de programação usados
 
-Nenhum recurso externo foi usado neste projeto. Todo o conteúdo foi desenvolvido manualmente com código.
+- Estrutura condicional (`if`) para detectar teclas e colisões.
+- Estrutura de repetição (`for`) para criar os alimentos.
+- Classes para organizar o comportamento do trator e dos alimentos.
+- Funções de interação com o teclado (`keyIsDown`).
+- Funções de desenho gráfico (`rect`, `ellipse`, `text`, `fill`, etc.).
 
-## 🏷 Tags
+## 📂 Estrutura do projeto
+
+├── index.html ← Carrega a biblioteca p5.js e o jogo
+├── sketch.js ← Código-fonte do jogo em JavaScript
+└── README.md ← Explicação do projeto
+
+## 🏷️ Tags
 
 agrinho
 
-## 👩‍💻 Autoria
+## 👩‍🌾 Sobre o projeto
 
-Projeto desenvolvido por Maria Eduarda Gerstner.
+Este projeto foi desenvolvido com criatividade e programação para mostrar a importância do campo de forma divertida e educativa. Ele representa a jornada do alimento: da plantação até a cidade.
+
+## ✍️ Autoria
+
+Criado por Maria Eduarda Gerstner para o Projeto Agrinho 2025 — Tema: Do campo à cidade.
