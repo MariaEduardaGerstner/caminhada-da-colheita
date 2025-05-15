@@ -1,126 +1,100 @@
-// 🌌 Noite das Estrelas Cadentes
-// Criado com p5.js para o projeto Agrinho
-// Comandos usados: if, for, keyIsDown, keyPressed, arrays, interação
+// 🌱🚜 A Caminhada da Colheita
 
-let estrelas = [];
-let estrelasCadentes = [];
-let flores = [];
-let observador;
+let trator;
+let alimentos = [];
+let entregues = 0;
+let mensagens = [
+  "Você entregou milho que virou pão!",
+  "A cenoura colhida virou sopa na cidade!",
+  "A mandioca virou farinha pro mercado!"
+];
+let mensagemAtual = "";
+let campoLimite;
 
 function setup() {
-  createCanvas(800, 600);
-  observador = new Observador();
-  // Criar estrelas piscando
-  for (let i = 0; i < 100; i++) {
-    estrelas.push(new Estrela(random(width), random(height / 2)));
+  createCanvas(800, 400);
+  campoLimite = width / 2;
+  trator = new Trator();
+
+  // Criar alimentos
+  for (let i = 0; i < 5; i++) {
+    alimentos.push(new Alimento());
   }
 }
 
 function draw() {
-  background(10, 10, 40); // Céu noturno
+  background(100, 200, 100); // verde - campo
 
-  // Estrelas piscando
-  for (let e of estrelas) {
-    e.piscar();
-  }
+  // Cidade
+  fill(200); // cinza claro
+  rect(campoLimite, 0, width / 2, height);
 
-  // Estrelas cadentes
-  for (let i = estrelasCadentes.length - 1; i >= 0; i--) {
-    estrelasCadentes[i].mover();
-    estrelasCadentes[i].exibir();
-    if (estrelasCadentes[i].y > height - 20) {
-      flores.push(new Flor(estrelasCadentes[i].x));
-      estrelasCadentes.splice(i, 1);
+  // Trator
+  trator.mostrar();
+  trator.mover();
+
+  // Alimentos
+  for (let alimento of alimentos) {
+    alimento.mostrar();
+    if (!alimento.coletado && alimento.colidiu(trator)) {
+      alimento.coletado = true;
+      trator.carregando++;
     }
   }
 
-  // Flores brilhantes
-  for (let f of flores) {
-    f.exibir();
+  // Entregas
+  if (trator.x > campoLimite && trator.carregando > 0) {
+    entregues += trator.carregando;
+    mensagemAtual = random(mensagens);
+    trator.carregando = 0;
   }
 
-  // Observador
-  observador.mover();
-  observador.exibir();
-
-  // Instruções
-  fill(255);
+  // Texto
+  fill(0);
   textSize(16);
-  text("Use ← → para mover. Pressione ESPAÇO para lançar uma estrela cadente.", 10, height - 20);
+  text(`Entregas: ${entregues}`, 10, 20);
+  text(mensagemAtual, 10, 50);
 }
 
-function keyPressed() {
-  if (key === ' ') {
-    estrelasCadentes.push(new EstrelaCadente(observador.x));
-    // Aqui poderia tocar um som suave de estrela
-  }
-}
-
-// Classes
-
-class Estrela {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-    this.tamanho = random(1, 3);
-    this.brilho = random(100, 255);
-  }
-
-  piscar() {
-    this.brilho += random(-5, 5);
-    this.brilho = constrain(this.brilho, 100, 255);
-    noStroke();
-    fill(this.brilho, this.brilho, 255);
-    ellipse(this.x, this.y, this.tamanho);
-  }
-}
-
-class EstrelaCadente {
-  constructor(x) {
-    this.x = x;
-    this.y = 0;
-    this.velocidade = random(5, 8);
-  }
-
-  mover() {
-    this.y += this.velocidade;
-  }
-
-  exibir() {
-    stroke(255);
-    line(this.x, this.y, this.x - 10, this.y - 10);
-  }
-}
-
-class Flor {
-  constructor(x) {
-    this.x = x;
-    this.y = height - 10;
-    this.cor = color(random(100, 255), random(100, 255), random(200, 255));
-  }
-
-  exibir() {
-    fill(this.cor);
-    noStroke();
-    ellipse(this.x, this.y, 10, 10);
-  }
-}
-
-class Observador {
+class Trator {
   constructor() {
-    this.x = width / 2;
+    this.x = 100;
+    this.y = height / 2;
+    this.tamanho = 40;
+    this.velocidade = 3;
+    this.carregando = 0;
+  }
+
+  mostrar() {
+    fill(255, 0, 0);
+    rect(this.x, this.y, this.tamanho, this.tamanho);
   }
 
   mover() {
-    if (keyIsDown(LEFT_ARROW)) this.x -= 5;
-    if (keyIsDown(RIGHT_ARROW)) this.x += 5;
-    this.x = constrain(this.x, 0, width);
+    if (keyIsDown(LEFT_ARROW)) this.x -= this.velocidade;
+    if (keyIsDown(RIGHT_ARROW)) this.x += this.velocidade;
+    if (keyIsDown(UP_ARROW)) this.y -= this.velocidade;
+    if (keyIsDown(DOWN_ARROW)) this.y += this.velocidade;
+  }
+}
+
+class Alimento {
+  constructor() {
+    this.x = random(50, campoLimite - 50);
+    this.y = random(50, height - 50);
+    this.tamanho = 20;
+    this.coletado = false;
   }
 
-  exibir() {
-    fill(200, 200, 255);
-    rect(this.x - 10, height - 40, 20, 40);
-    fill(255);
-    ellipse(this.x, height - 50, 10); // Cabeça
+  mostrar() {
+    if (!this.coletado) {
+      fill(255, 255, 0);
+      ellipse(this.x, this.y, this.tamanho);
+    }
+  }
+
+  colidiu(trator) {
+    let d = dist(this.x, this.y, trator.x, trator.y);
+    return d < this.tamanho / 2 + trator.tamanho / 2;
   }
 }
